@@ -1,0 +1,25 @@
+.avatar {
+  width: 45px; 
+  height: 45px; 
+  border-radius: 14px; 
+  aspect-ratio: 1 / 1; 
+  background-size: cover; 
+  margin-bottom: 8px; 
+  filter: saturate(1); 
+  font-size: 2em; 
+  justify-content: center; 
+  align-items: center; 
+  text-align: center; 
+  display: flex; 
+  position: relative;
+}
+
+.imageButton {
+  display: flex; /* Menggunakan display flex */
+  cursor: pointer;
+}
+
+.flex {
+  display: flex;
+  /* background-color: lightblue; */
+}

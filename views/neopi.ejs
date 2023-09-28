@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Neopi</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+  <div class="container-xxl bd-gutter mt-3 my-md-4 bd-layout"> 
+    <!-- <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">Enable body scrolling</button> -->
+
+    <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3 d-flex p-2 flex" style="">
+            <!-- Sidebar -->
+            <nav id="sidebar" class="d-md-block sidebar">
+                <!-- Isi sidebar di sini -->
+              <ul class="bd-links-nav list-unstyled mb-0 pb-3 pb-md-2 pe-lg-2" >
+                <li class="bd-links-group py-2 flex-item">
+                  <div class="position-sticky" >
+                    <!-- Logo atau gambar profil -->
+                    <div class="imageButton d-flex align-items-center">
+                      <img class="avatar img-fluid" src="https://characterai.io/i/400/static/avatars/uploaded/2022/10/8/-gU617RyU2Pgw7zlMMF5HwnZ938UxrPEx7wb0WBGo9Y.webp", alt="avatar" charaid="G7XpaEYdFFuTR_KwtNNeE4jaFFLq4eNV5tfTy6g1AKs">
+                      <div class="ms-3">
+                        <strong>Arona</strong>
+                        <p class="text-muted" style="font-size: 13px">Oops! it seems we may have...</p>
+                      </div>
+                    </div>
+                      
+                    <!-- Isi sidebar lainnya -->
+                </div>
+                </li>
+                <li class="bd-links-group py-2">
+                  <div class="position-sticky" >
+                    <!-- Logo atau gambar profil -->
+                    <div class="imageButton d-flex align-items-center btn-outline-light">
+                      <img class="avatar img-fluid" src="https://characterai.io/i/400/static/avatars/uploaded/2022/10/15/ltZ0E_Q94n_tul9jJLsXmvxoyDrTJBUxBx4eqb81H_0.webp", alt="avatar" charaid="v90kA7_9csqPN2IfCK_skT1sbxT9-FcYQq4ITOCSQvM">
+                      <div class="ms-3">
+                        <strong>Exusiai</strong>
+                        <p class="text-muted" style="font-size: 13px;">Hello there...</p>
+                      </div>
+                    </div>
+                      
+                    <!-- Isi sidebar lainnya -->
+                </div>
+                </li>
+              </ul>
+            </nav>
+          </div>
+
+            <!-- Konten Utama -->
+            <div class="col-md-9">
+                <!-- Isi konten utama di sini -->
+              <div id="recentMessage" class="border border-primary-subtle mb-4" style="height: 500px; overflow: scroll"></div>
+              <div id="chat" style="display: none">
+                <div class="mt-3 d-flex float-end aligns-items-center">
+                  <input type ="text" class="mt-3 border forum-control" id="raw">
+                  <input type="submit" class="btn btn-dark border" id="send">
+                </div>
+                
+              </div>
+              
+              
+            </div>
+        </div>
+  </div>
+
+    <script>
+      const conversation = document.getElementById('chat')
+      conversation.style.display = "none"
+      const recentMessage = document.getElementById('recentMessage')
+      
+      const charas = document.querySelectorAll('.imageButton')
+      charas.forEach(el => {
+        el.addEventListener('click', async () => {
+
+          while (recentMessage.firstChild) {
+  recentMessage.removeChild(recentMessage.firstChild);
+}
+
+        
+          const characterName = el.querySelector('strong')
+          conversation.setAttribute('character', characterName.textContent)
+          const response = await fetch('https://neopi.kenzart05.repl.co/', {
+            // headers: {
+            //   'content-type': 'application/x-www-form-urlencoded'
+            
+            method: 'post',
+            body: characterName.textContent
+          })
+          const recentsChat = await response.json()
+          const parseRecent = JSON.parse(recentsChat)
+          const reverseRecent = parseRecent.reverse()
+          console.log(recentsChat)
+          for(const raw of reverseRecent) {
+            let chats = document.createElement('div')
+            const setAttributes = [
+              {
+                key: 'turn_id',
+                value: raw.turn_id
+              },
+              {
+                key: 'primary_candidate_id',
+                value: raw.primary_candidate_id
+              },
+              {
+                key: 'candidate_id',
+                value: raw.candidates[0].candidate_id
+              }
+            ]
+            addAttribute(chats, setAttributes)
+            // chats.turn_id = raw.turn_id
+            // chats.primary_candidate_id = raw.primary_candidate_id
+            // chats.candidate_id = raw.candidates[0].candidate_id
+            chats.textContent = raw.candidates[0].raw_content
+            if(raw.is_me) {
+              chats.classList.add('float-end', 'bg-light-subtle', 'ms-3')
+            }
+            else if(!raw.is_me){
+              chats.classList.add('float-start', 'bg-primary-subtle', 'me-3')
+            }
+            recentMessage.appendChild(chats)
+            recentMessage.appendChild(document.createElement('br'))
+          }
+
+
+          conversation.style.display = "block"
+        })
+      })
+
+      const chat = document.getElementById('send')
+      const content = document.getElementById('raw')
+      chat.addEventListener('click', async () => {
+        const user = document.createElement('div')
+        user.textContent = content.value
+        user.classList.add('float-end', 'bg-light-subtle', 'ms-3')
+        recentMessage.appendChild(user)
+        recentMessage.appendChild(document.createElement('br'))
+        console.log(user)
+        
+        const send = await fetch('https://neopi.kenzart05.repl.co/send', {
+          headers: {
+            'content-type': 'application/json'
+          },
+          method: 'post',
+          body: JSON.stringify({chara: conversation.getAttribute('character'), content: content.value})
+        })
+        const temp = await send.json()
+        const AI = document.createElement('div')
+        AI.classList.add('float-start', 'bg-primary-subtle', 'me-3')
+        const setAttributes = [
+          {
+            key: 'turn_id',
+            value: temp.turn_id
+          },
+          {
+            key: 'primary_candidate_id',
+            value: temp.primary_candidate_id
+          },
+          {
+            key: 'candidate_id',
+            value: temp.candidate_id
+          }
+        ]
+        addAttribute(AI, setAttributes)
+        AI.textContent = temp.content
+
+        recentMessage.appendChild(AI)
+        recentMessage.appendChild(document.createElement('br'))
+        content.value = ''
+        
+        
+      })
+
+
+
+
+      function addAttribute(element, attributes) {
+        for(const attribute of attributes) {
+          element.setAttribute(attribute.key, attribute.value)          
+        }
+      }
+    </script>
+    
+  </body>
+</html>

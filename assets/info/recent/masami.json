@@ -1,0 +1,24 @@
+[
+  {
+    "candidates": [
+      {
+        "candidate_id": "U2FsdGVkX1/7W6+SU+oCBAXllUZ/DVgnIumAtalP2aKzpRYGaSbfdrG/9vG9Ne+SrZeROKBVIfILY/LrhFRRXQ==",
+        "raw_content": "U2FsdGVkX1/O0jvZ+GB3p0g2FnHWABNCrUSd930jahhXowBJIdZKSWWNMpxv4+cyHZh5bHSVZrDVLmdicbVMLw=="
+      }
+    ],
+    "turn_id": "U2FsdGVkX19vyZ+cOp0owD5zevpUNmPecffi8W4Id8Hvdemlz4F+gCId6LiA4G6VhPzjVFkUKKu1xNPsnhB7tA==",
+    "primary_candidate_id": "U2FsdGVkX18UMHVwXDXJhIWN9Og2lnGfi2jFy/An6z7UEiyFT4suJZnsHQnwiaWpGYe7RdxE8oUTA+4jG1da0w==",
+    "is_me": true
+  },
+  {
+    "candidates": [
+      {
+        "candidate_id": "U2FsdGVkX1+ojDY4CDX8iS/QmPI8ltEAjKHQl8fPCk9N5BOy8qOAx9OVGYe8uG8jfQQOQ2SY9R+CUQW94F/slA==",
+        "raw_content": "U2FsdGVkX1/rguNanv1SXmsJ/HWDLQUoeHd62B7vLCA91vpe3mEdl0iFUbZBYAR7"
+      }
+    ],
+    "turn_id": "U2FsdGVkX1881B26LaqSKf4OA0Rr3Y2X0S8OeihgbzuutuLjuVvoLYjDuFXhTDxtBeun3qAVxCUnWbh32irchg==",
+    "primary_candidate_id": "U2FsdGVkX18OzSG8i3EpyK6tmQnSsr4HOaYBaQdKOiar5EcxhfGRmykhf7+tK8J0L8tMwCxumSLmbhmpJT2HAg==",
+    "is_me": true
+  }
+]
